@@ -58,11 +58,13 @@ for epoch in range(1, opt.epoch + 1):
         loss.backward()
         clip_gradient(optimizer, opt.clip)
         optimizer.step()
+        # Log
         log_value('loss', loss.data[0], (epoch - 1) * total_step + i)
         if i % 10 == 0 or i == total_step:
             print('Epoch [%d/%d], Step [%d/%d], Loss: %.8f' %
                   (epoch, opt.epoch, i, total_step, loss.data[0]))
             save_image(images.data, os.path.join(visual_dir, 'images_%d_%d.png' % (epoch, i)))
             save_image(gts.data, os.path.join(visual_dir, 'gts_%d_%d.png' % (epoch, i)))
+            save_image(res.data, os.path.join(visual_dir, 'res_%d_%d.png' % (epoch, i)))
     save_path = weight_pth_path + '.%d' % epoch
     torch.save(model.state_dict(), save_path)
