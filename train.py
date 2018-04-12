@@ -15,7 +15,7 @@ from tensorboard_logger import configure, log_value
 from data import get_loader
 from model import Model
 from args import image_root, gt_root, visual_dir
-from args import opt, log_environment
+from args import opt, log_environment, weight_pth_path
 from utils import clip_gradient, adjust_lr
 
 
@@ -64,3 +64,5 @@ for epoch in range(1, opt.epoch + 1):
                   (epoch, opt.epoch, i, total_step, loss.data[0]))
             save_image(images.data, os.path.join(visual_dir, 'images_%d_%d.png' % (epoch, i)))
             save_image(gts.data, os.path.join(visual_dir, 'gts_%d_%d.png' % (epoch, i)))
+    save_path = weight_pth_path + '.%d' % epoch
+    torch.save(model.state_dict(), save_path)
