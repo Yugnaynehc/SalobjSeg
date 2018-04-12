@@ -40,18 +40,8 @@ opt = parser.parse_args()
 
 
 # 训练相关的超参数
-num_epoch = opt.epoch
-learning_rate = opt.lr
-batch_size = opt.batchsize
-train_size = opt.trainsize
-val_size = opt.valsize
-use_cuda = opt.cuda
-use_multi = not opt.single
-use_checkpoint = opt.checkpoint
-clip = opt.clip
 ds = opt.ds
 trial_id = opt.trial_id
-eval_epoch = opt.eval_epoch
 
 # 模型相关的超参数
 frame_shape = (3, 224, 224)                       # 视频帧的形状
@@ -65,7 +55,7 @@ hidden_size = 1024                                # 循环网络的隐层单元�
 # 训练日志信息
 time_format = '%m-%d_%X'
 current_time = time.strftime(time_format, time.localtime())
-env_tag = '_'.join(map(str, [ds.upper(), trial_id, current_time, batch_size, learning_rate]))
+env_tag = '_'.join(map(str, [ds.upper(), trial_id, current_time, opt.batchsize, opt.lr]))
 log_environment = os.path.join(opt.tb_dir, env_tag)   # tensorboard的记录环境
 
 

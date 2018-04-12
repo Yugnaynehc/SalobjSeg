@@ -61,6 +61,6 @@ for epoch in range(1, opt.epoch + 1):
         log_value('loss', loss.data[0], (epoch - 1) * total_step + i)
         if i % 10 == 0 or i == total_step:
             print('Epoch [%d/%d], Step [%d/%d], Loss: %.8f' %
-                  (opt.epoch, opt.epoch, i, total_step, loss.data[0]))
+                  (epoch, opt.epoch, i, total_step, loss.data[0]))
             save_image(images.data, os.path.join(visual_dir, 'images_%d_%d.png' % (epoch, i)))
             save_image(gts.data, os.path.join(visual_dir, 'gts_%d_%d.png' % (epoch, i)))
