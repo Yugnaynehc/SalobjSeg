@@ -1,0 +1,35 @@
+pmodels
+pmodels/
+datasets
+datasets/
+feats
+feats*/
+visuals
+visuals*/
+results
+results*/
+logs
+logs/
+logs*/
+temp/
+*.gv
+*.pyc
+*.npy
+*.pth
+*.png
+*.avi
+*.txt
+!requirements.txt
+
+# Emacs
+.tramp_history
+
+# LaTeX
+*.pdf
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out

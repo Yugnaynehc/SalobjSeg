@@ -1,0 +1,8 @@
+numpy
+scipy
+h5py
+future
+sklearn
+nltk
+scikit-image
+tensorboard_logger
