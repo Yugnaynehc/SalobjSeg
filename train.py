@@ -27,6 +27,7 @@ model = Model()
 
 if opt.cuda:
     train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=True)
+    model.cuda()
 else:
     train_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=False)
 

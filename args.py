@@ -100,8 +100,6 @@ name2id_map = os.path.join(feat_dir, ds + '_name2id.pkl')
 # 结果评估相关的参数
 result_root = opt.result_root
 result_dir = prepare_dir(result_root, ds, trial_id)
-hashing_recall_level = (1, 5, 10, 20)
-coatten_recall_level = (1, 5, 10, 20)
 
 
 with open(os.path.join(result_dir, 'args.txt'), 'w') as f:
