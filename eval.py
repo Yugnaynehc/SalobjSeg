@@ -14,7 +14,7 @@ from torchvision.utils import save_image
 
 from data import get_loader
 from model import Model
-from args import image_root, gt_root, visual_dir
+from args import eval_image_root, eval_gt_root, visual_dir
 from args import opt, weight_pth_path
 
 
@@ -34,7 +34,6 @@ def evaluate(model, eval_loader):
         t0 = time.time()
         res = model(images)
         times = time.time() - t0
-        print(times)
         print('Step [%d/%d], FPS: %.2f' % (i, total_step, len(res) / times))
         save_image(images.data, os.path.join(visual_dir, 'images_test_%d.png' % (i)))
         save_image(gts.data, os.path.join(visual_dir, 'gts_test_%d.png' % (i)))
@@ -46,11 +45,11 @@ if __name__ == '__main__':
     model = Model()
     load_path = weight_pth_path + '.%d' % opt.eval_epoch
     if opt.cuda:
-        eval_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=True)
+        eval_loader = get_loader(eval_image_root, eval_gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=True)
         weights = torch.load(load_path)
         model.cuda()
     else:
-        eval_loader = get_loader(image_root, gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=False)
+        eval_loader = get_loader(eval_image_root, eval_gt_root, batchsize=opt.batchsize, num_workers=2, pin_memory=False)
         weights = torch.load(load_path, map_location=lambda storage, loc: storage)
 
     model.load_state_dict(weights)

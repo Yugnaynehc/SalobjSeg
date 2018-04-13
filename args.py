@@ -31,6 +31,7 @@ parser.add_argument('--nosingle', dest='single', action='store_false')
 parser.add_argument('--checkpoint', type=bool, default=False, help='use the best checkpoint or not')
 parser.add_argument('--clip', type=float, default=0.1, help='gradient clipping margin')
 parser.add_argument('--ds', type=str, default='msra10k', help='dataset name')
+parser.add_argument('--eval-ds', type=str, default='msra10k', help='eval dataset name')
 parser.add_argument('--tb-dir', type=str, default='logs', help='tensorboard logs dir')
 parser.add_argument('--result-root', type=str, default='results', help='checkpoint save root')
 parser.add_argument('--visual-root', type=str, default='visuals', help='visual result save root')
@@ -60,16 +61,19 @@ log_environment = os.path.join(opt.tb_dir, env_tag)   # tensorboard的记录环�
 
 
 # 数据相关的参数
-# 提供两个数据集：MSRA10K
+# 提供两个数据集：MSRA10K, PASCAL, DUT-OMRON
 msra10k_image_root = './datasets/MSRA10K/images/'
 msra10k_gt_root = './datasets/MSRA10K/gts/'
+pascal_image_root = './datasets/PASCAL/images/'
+pascal_gt_root = './datasets/PASCAL/gts/'
 
 dataset = {
     'msra10k': [msra10k_image_root, msra10k_gt_root],
+    'pascal': [pascal_image_root, pascal_gt_root]
 }
 
 image_root, gt_root = dataset[ds]
-
+eval_image_root, eval_gt_root = dataset[opt.eval_ds]
 
 feat_root = 'feats'
 feat_dir = prepare_dir(feat_root, ds)
