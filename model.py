@@ -5,6 +5,7 @@ Salient object segmentation by full conv net
 '''
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torchvision.models as models
 from args import resnet_checkpoint
 from args import opt
@@ -41,5 +42,6 @@ class Model(nn.Module):
         x = self.deconv1(x, output_size=(14, 14))
         x = self.deconv2(x, output_size=(28, 28))
         x = self.fc(x)
-        x = self.upsampling(x)
+        x = F.sigmoid(x)
+        # x = self.upsampling(x)
         return x

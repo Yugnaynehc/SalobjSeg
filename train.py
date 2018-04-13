@@ -35,7 +35,7 @@ total_step = len(train_loader)
 
 params = model.parameters()
 optimizer = torch.optim.Adam(params, lr=opt.lr)
-crit = torch.nn.MSELoss()
+crit = torch.nn.NLLLoss2d()
 
 print("Let's go!")
 for epoch in range(1, opt.epoch + 1):
@@ -52,8 +52,10 @@ for epoch in range(1, opt.epoch + 1):
             gts = gts.cuda()
         # Forward
         res = model(images)
+        neg = 1 - res
+        dist = torch.cat([neg, res], 1)
         # Merge losses
-        loss = crit(res, gts)
+        loss = crit(dist, gts)
         # Backward and update
         loss.backward()
         clip_gradient(optimizer, opt.clip)
@@ -64,7 +66,7 @@ for epoch in range(1, opt.epoch + 1):
             print('Epoch [%d/%d], Step [%d/%d], Loss: %.8f' %
                   (epoch, opt.epoch, i, total_step, loss.data[0]))
             save_image(images.data, os.path.join(visual_dir, 'images_%d_%d.png' % (epoch, i)))
-            save_image(gts.data, os.path.join(visual_dir, 'gts_%d_%d.png' % (epoch, i)))
+            save_image(gts.unsqueeze(1).data, os.path.join(visual_dir, 'gts_%d_%d.png' % (epoch, i)))
             save_image(res.data, os.path.join(visual_dir, 'res_%d_%d.png' % (epoch, i)))
     save_path = weight_pth_path + '.%d' % epoch
     torch.save(model.state_dict(), save_path)

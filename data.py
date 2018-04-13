@@ -28,14 +28,14 @@ class SalObjDataset(data.Dataset):
         self.gts = sorted(glob.glob(os.path.join(gt_root, '*.png')))
         self.size = size if size else len(self.images)
         self.transform = Compose([Resize((224, 224)), ToTensor(), Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
-        self.gt_transform = Compose([Resize((224, 224)), ToTensor()])
+        self.gt_transform = Compose([Resize((28, 28)), ToTensor()])
 
     def __getitem__(self, index):
         image = self.rgb_loader(self.images[index])
         image = self.transform(image)
         gt = self.binary_loader(self.gts[index])
         gt = self.gt_transform(gt)
-        # gt = gt.long().squeeze(0)
+        gt = gt.long().squeeze(0)
         return image, gt
 
     def rgb_loader(self, path):
