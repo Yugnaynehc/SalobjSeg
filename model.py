@@ -35,13 +35,12 @@ class Model(nn.Module):
         x = self.resnet.relu(x)
         x = self.resnet.maxpool(x)
 
-        x = self.resnet.layer1(x)
-        x = self.resnet.layer2(x)
-        x = self.resnet.layer3(x)
-        x = self.resnet.layer4(x)
+        x = self.resnet.layer1(x)  # 64 x 56 x 56
+        x = self.resnet.layer2(x)  # 128 x 28 x 28
+        x = self.resnet.layer3(x)  # 256 x 14 x 14
+        x = self.resnet.layer4(x)  # 512 x 7 x 7
         x = self.deconv1(x, output_size=(14, 14))
         x = self.deconv2(x, output_size=(28, 28))
         x = self.fc(x)
-        x = F.sigmoid(x)
-        # x = self.upsampling(x)
+        x = self.upsampling(x)
         return x
